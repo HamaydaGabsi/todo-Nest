@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { AddTodoDTO } from './dto/add-todo.dto';
 import { EditTodoDTO } from './dto/edit-todo.dto';
 import { Todo } from './todoModel';
 
 @Injectable()
 export class TodoService {
-  constructor(){
+  constructor(@Inject ('uuidProvider') uuid){
     this.listeTodos=[]
   }
   listeTodos: Todo[];
