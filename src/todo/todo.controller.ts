@@ -17,12 +17,10 @@ export class TodoController {
     
   }
 
-  
-
   @Get()
   getTodos() {
     console.log('get Todos');
-    return this.todoService.getTodos;
+    return this.todoService.getTodos();
   }
 
   @Post()

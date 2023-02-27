@@ -5,6 +5,9 @@ import { Todo } from './todoModel';
 
 @Injectable()
 export class TodoService {
+  constructor(){
+    this.listeTodos=[]
+  }
   listeTodos: Todo[];
   getTodos(): Todo[]{
     return this.listeTodos;
