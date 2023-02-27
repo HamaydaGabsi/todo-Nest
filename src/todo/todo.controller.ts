@@ -8,6 +8,7 @@ import {
   Body,
 } from '@nestjs/common';
 import { AddTodoDTO } from './dto/add-todo.dto';
+import { EditTodoDTO } from './dto/edit-todo.dto';
 import { Todo, TodoStatusEnum } from './todoModel';
 @Controller('todo')
 export class TodoController {
@@ -51,7 +52,7 @@ export class TodoController {
   }
 
   @Put(':id')
-  editTodo(@Param('id') id, @Body() newTodo: Partial<Todo>) {
+  editTodo(@Param('id') id, @Body() newTodo: Partial<EditTodoDTO>) {
     this.listeTodos.forEach((todo) => {
       if (id === todo.id) {
         todo.description = newTodo.description
