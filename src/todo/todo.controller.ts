@@ -1,39 +1,68 @@
-import { Controller,Get } from '@nestjs/common';
-import {Todo,TodoStatusEnum} from './todoModel'
+import {
+  Controller,
+  Get,
+  Delete,
+  Put,
+  Post,
+  Param,
+  Body,
+} from '@nestjs/common';
+import { AddTodoDTO } from './dto/add-todo.dto';
+import { Todo, TodoStatusEnum } from './todoModel';
 @Controller('todo')
 export class TodoController {
-  constructor(){
-    this.listeTodos=[];
+  constructor() {
+    this.listeTodos = [];
   }
-  
-  listeTodos : Todo[] 
+
+  listeTodos: Todo[];
 
   @Get()
-  getTodos(){
+  getTodos() {
     console.log('get Todos');
-    return this.listeTodos
-    
-  }
-  
-
-  addTodo(name,description){
-    this.listeTodos.push(new Todo(name,description))
+    return this.listeTodos;
   }
 
-  getTodoById(id){
-    this.listeTodos.forEach(todo => {
-      if(id==todo.id)
-      return todo
+  @Post()
+  addTodo(@Body() newTodo:AddTodoDTO) {
+    const todo=new Todo(newTodo.name,newTodo.description)
+    this.listeTodos.push(todo);
+    console.log("post" + todo)
+    return(todo)
+  }
+
+  @Get(':id')
+  getTodoById(@Param('id') id) {
+    this.listeTodos.forEach((todo) => {
+      if (id === todo.id){
+        
+        console.log(todo)
+        return todo};
+    });
+
+  }
+
+  @Delete(':id')
+  deleteTodoById(@Param('id') id) {
+    this.listeTodos = this.listeTodos.filter((todo) => {
+      console.log('deleted')
+      return todo.id !== id;
     });
   }
-  deleteTodoById(id){
-    this.listeTodos= this.listeTodos.filter(todo => {return todo.id !== id});
-  }
-  editTodo(newTodo){
-    this.listeTodos.forEach(todo => {
-      if(newTodo.id==todo.id){
-        todo=newTodo;
-        return
+
+  @Put(':id')
+  editTodo(@Param('id') id, @Body() newTodo: Partial<Todo>) {
+    this.listeTodos.forEach((todo) => {
+      if (id === todo.id) {
+        todo.description = newTodo.description
+          ? newTodo.description
+          : todo.description;
+        todo.name = newTodo.name ? newTodo.name : todo.name;
+        todo.description = newTodo.description
+          ? newTodo.description
+          : todo.description;
+        todo.statut = newTodo.statut ? newTodo.statut : todo.statut;
+        return todo;
       }
     });
   }
