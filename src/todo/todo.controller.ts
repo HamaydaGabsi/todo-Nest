@@ -10,7 +10,7 @@ import {
 import { AddTodoDTO } from './dto/add-todo.dto';
 import { EditTodoDTO } from './dto/edit-todo.dto';
 import { TodoService } from './todo.service';
-import { Todo, TodoStatusEnum } from './todoModel';
+import { Todo, TodoStatusEnum } from './todo.entity';
 @Controller('todo')
 export class TodoController {
   constructor(private todoService: TodoService) {
