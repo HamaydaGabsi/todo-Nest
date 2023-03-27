@@ -4,13 +4,14 @@ import { AppService } from './app.service';
 import { TodoModule } from './todo/todo.module';
 import { CommonModule } from './common/common.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Todo } from './todo/entities/todo.entity';
+
 import * as dotenv from 'dotenv'
 
 dotenv.config();
 @Module({
   imports: [
-    TodoModule,
-    CommonModule,
+    
     TypeOrmModule.forRoot({
       type: "mysql",
       host: process.env.DB_HOST,
@@ -18,9 +19,11 @@ dotenv.config();
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: ['dist/**/*.entity{.ts,.js}'],
+      entities: [Todo],
       synchronize: true,
     }),
+    TodoModule,
+    CommonModule,
   ],
   controllers: [AppController],
   providers: [AppService],

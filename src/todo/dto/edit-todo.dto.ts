@@ -4,7 +4,7 @@ import {
   TOO_LONG_ERROR,
   TOO_SHORT_ERROR,
 } from 'src/constants';
-import { TodoStatusEnum } from '../todo.entity';
+import { TodoStatusEnum } from '../entities/todo.entity';
 export class EditTodoDTO {
   @IsOptional()
   @MinLength(3, { message: TOO_SHORT_ERROR('name', 3) })
