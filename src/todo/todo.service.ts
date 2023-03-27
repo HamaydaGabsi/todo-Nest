@@ -1,16 +1,22 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { AddTodoDTO } from './dto/add-todo.dto';
 import { EditTodoDTO } from './dto/edit-todo.dto';
 import { Todo } from './entities/todo.entity';
 
 @Injectable()
 export class TodoService {
-  constructor(@Inject ('uuidProvider') uuid){
+  constructor(@Inject ('uuidProvider') uuid,
+  @InjectRepository(Todo) private todoRepository: Repository<Todo>){
     this.listeTodos=[]
   }
   listeTodos: Todo[];
-  getTodos(): Todo[]{
+  getTodos_L(): Todo[]{
     return this.listeTodos;
+  }
+  async getTodos(): Promise<Todo[]> {
+    return await this.todoRepository.find();
   }
   addTodo(newTodo:AddTodoDTO):Todo {
     const todo=new Todo(newTodo.name,newTodo.description)

@@ -9,8 +9,8 @@ import {
 import { BaseEntity } from '../../utils/entities/BaseEntity.entity';
 @Entity('todo')
 export class Todo extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column()
   name: string;
@@ -23,7 +23,6 @@ export class Todo extends BaseEntity {
 
   constructor(name: string, description: string) {
     super();
-    this.id = uuidv4();
     this.name = name;
     this.description = description;
     this.statut = TodoStatusEnum.waiting;
