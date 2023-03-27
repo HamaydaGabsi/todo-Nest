@@ -1,7 +1,7 @@
 import { CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
 
 export class BaseEntity {
-  @CreateDateColumn({ type: 'timestamp', readonly: true })
+  @CreateDateColumn({ update:false })
   createdAt: Date;
 
   @UpdateDateColumn()
