@@ -1,8 +1,14 @@
 import { v4 as uuidv4 } from 'uuid';
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
-
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { BaseEntity } from '../../utils/entities/BaseEntity.entity';
 @Entity('todo')
-export class Todo {
+export class Todo extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -12,19 +18,11 @@ export class Todo {
   @Column()
   description: string;
 
-  @CreateDateColumn({ type: 'timestamp', readonly: true })
-  dateCreation: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @Column({ nullable: true })
-  deletedAt: Date;
-
   @Column()
   statut: TodoStatusEnum;
 
   constructor(name: string, description: string) {
+    super();
     this.id = uuidv4();
     this.name = name;
     this.description = description;
@@ -33,7 +31,7 @@ export class Todo {
 }
 
 export enum TodoStatusEnum {
-  'actif' = "En cours",
-  'waiting' = "En attente",
-  'done' = "Finalisé"
+  'actif' = 'En cours',
+  'waiting' = 'En attente',
+  'done' = 'Finalisé',
 }
