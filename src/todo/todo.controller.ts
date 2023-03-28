@@ -23,9 +23,9 @@ export class TodoController {
   }
   @Get()
   async getTodos(@Query() queryParams: TodoQueryParamsDTO): Promise<Todo[]> {
-    const { chaine, statut } = queryParams;
+    const { chaine, statut,page,limit } = queryParams;
     console.log('get Todos');
-    return await this.todoService.getTodos(chaine, statut);
+    return await this.todoService.getTodos(chaine, statut,page,limit);
   }
 
   @Post()

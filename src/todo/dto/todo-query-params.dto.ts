@@ -1,4 +1,4 @@
-import { IsOptional, IsString } from 'class-validator';
+import {IsOptional, IsString } from 'class-validator';
 
 export class TodoQueryParamsDTO {
   @IsOptional()
@@ -8,4 +8,12 @@ export class TodoQueryParamsDTO {
   @IsOptional()
   @IsString()
   statut?: string;
+
+  @IsOptional()
+  @IsString()
+  page?: number;
+
+  @IsOptional()
+  @IsString()
+  limit?: number;
 }
