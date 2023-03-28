@@ -3,8 +3,6 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 import { BaseEntity } from '../../utils/entities/BaseEntity.entity';
 @Entity('todo')

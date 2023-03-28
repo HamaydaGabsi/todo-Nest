@@ -10,6 +10,7 @@ export class EditTodoDTO {
   @MinLength(3, { message: TOO_SHORT_ERROR('name', 3) })
   @MaxLength(10, { message: TOO_LONG_ERROR('name', 10) })
   name: string;
+  
   @IsOptional()
   @MinLength(10, { message: TOO_SHORT_ERROR('description', 10) })
   description: string;

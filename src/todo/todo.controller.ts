@@ -16,11 +16,14 @@ export class TodoController {
   constructor(private todoService: TodoService) {
     
   }
-
+  @Get('counts')
+  async getTodoCountsByStatus(): Promise<{ [key in TodoStatusEnum]: number }> {
+    return await this.todoService.getTodoCountsByStatus();
+  }
   @Get()
-  getTodos() {
+  async getTodos() {
     console.log('get Todos');
-    return this.todoService.getTodos();
+    return await this.todoService.getTodos();
   }
 
   @Post()
@@ -35,12 +38,14 @@ export class TodoController {
   }
 
   @Delete(':id')
-  deleteTodoById(@Param('id') id) {
-    return this.todoService.deleteTodoById(id)
+  async deleteTodoById(@Param('id') id) {
+    return await this.todoService.soft_deleteTodoById(id)
   }
 
   @Put(':id')
-  editTodo(@Param('id') id, @Body() newTodo: Partial<EditTodoDTO>) {
-    this.todoService.editTodo(id,newTodo)
+  async editTodo(@Param('id') id, @Body() newTodo: Partial<EditTodoDTO>) {
+    console.log("edit router")
+    return  await this.todoService.editTodo(id,newTodo)
   }
+  
 }
