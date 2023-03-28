@@ -1,5 +1,10 @@
 import { Inject, Injectable,NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import {
+  paginate,
+  Pagination,
+  IPaginationOptions,
+} from 'nestjs-typeorm-paginate';
 
 import { Repository } from 'typeorm';
 import { AddTodoDTO } from './dto/add-todo.dto';
@@ -25,8 +30,25 @@ export class TodoService {
   getTodos_L(): Todo[] {
     return this.listeTodos;
   }
-  async getTodos(): Promise<Todo[]> {
-    return await this.todoRepository.find();
+  async getTodos(chaine,statut): Promise<Todo[]> {
+    if(chaine ){
+      console.log(chaine)
+    }
+    if(statut ){
+      console.log(statut)
+    }
+    let queryBuilder = this.todoRepository.createQueryBuilder('todo');
+
+    if (chaine) {
+      queryBuilder = queryBuilder.where(`(LOWER(todo.name) LIKE LOWER(:chaine) OR LOWER(todo.description) LIKE LOWER(:chaine))`, { chaine: `%${chaine}%` });
+    }
+
+    if (statut) {
+      queryBuilder = queryBuilder.andWhere('todo.statut = :statut', { statut });
+    }
+
+    return await queryBuilder.getMany();
+    
   }
   addTodo_L(newTodo: AddTodoDTO): Todo {
     const todo = new Todo(newTodo.name, newTodo.description);
@@ -100,4 +122,5 @@ export class TodoService {
     console.log(counts)
     return counts;
   }
+  
 }
