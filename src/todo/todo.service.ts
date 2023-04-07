@@ -1,4 +1,4 @@
-import { Inject, Injectable,NotFoundException } from '@nestjs/common';
+import { Inject, Injectable,NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 
@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { AddTodoDTO } from './dto/add-todo.dto';
 import { EditTodoDTO } from './dto/edit-todo.dto';
 import { Todo, TodoStatusEnum } from './entities/todo.entity';
+import { error } from 'console';
 
 @Injectable()
 export class TodoService {
@@ -56,14 +57,15 @@ export class TodoService {
     
   }
   addTodo_L(newTodo: AddTodoDTO): Todo {
-    const todo = new Todo(newTodo.name, newTodo.description);
+    const todo = new Todo(newTodo.name, newTodo.description,newTodo.userId);
     this.listeTodos.push(todo);
     console.log('post' + todo);
     return todo;
   }
   async addTodo(newTodo: AddTodoDTO): Promise<Todo> {
     console.log(newTodo)
-    return await this.todoRepository.save(new Todo(newTodo.name,newTodo.description));
+    return await this.todoRepository.save(new Todo(newTodo.name,newTodo.description,newTodo.userId));
+
   }
   getTodoById(id) {
     this.listeTodos.forEach((todo) => {
@@ -84,9 +86,14 @@ export class TodoService {
     const todo = await this.findTodoById(id)
     return await this.todoRepository.remove(todo)
   }
-  async soft_deleteTodoById(id) {
+  async soft_deleteTodoById(id,userId) {
     const todo = await this.findTodoById(id)
-    return await this.todoRepository.softRemove(todo)
+    if(userId==todo.userId){
+      return await this.todoRepository.softRemove(todo)
+    }
+    else {
+      throw new UnauthorizedException("you are not authorized to delete this todo")
+    }
   }
 
   editTodo_L(id, newTodo: Partial<EditTodoDTO>) {
@@ -106,9 +113,9 @@ export class TodoService {
   }
   async editTodo(id, newTodo: Partial<EditTodoDTO>): Promise<Todo> {
     console.log('editing name')
-    const aTodo = await this.todoRepository.update({'id':id},newTodo)
+    const aTodo = await this.todoRepository.update({'id':id,'userId':newTodo.userId},newTodo)
     if (aTodo.affected==0){
-      throw new NotFoundException(`le todo d'id ${id} n'existe pas`)
+      throw new NotFoundException(`le todo d'id ${id} n'existe pas oubien tu n'as pas le droit de le modifier`)
     }
     return
   }

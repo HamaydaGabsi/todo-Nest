@@ -1,5 +1,6 @@
-import { MinLength,IsOptional, MaxLength ,IsEnum} from "class-validator";
+import { MinLength,IsOptional, MaxLength ,IsEnum, IsNotEmpty} from "class-validator";
 import {
+  EMPTY_ERROR,
   STATUS_ENUM_ERROR,
   TOO_LONG_ERROR,
   TOO_SHORT_ERROR,
@@ -18,4 +19,7 @@ export class EditTodoDTO {
   @IsOptional()
   @IsEnum(TodoStatusEnum, { message: STATUS_ENUM_ERROR })
   statut: TodoStatusEnum;
+  
+  @IsNotEmpty({message:EMPTY_ERROR('userId')})
+  userId: number
 }

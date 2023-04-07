@@ -12,4 +12,9 @@ export class AddTodoDTO{
   @IsNotEmpty({message:EMPTY_ERROR('description')})
   @MinLength(10,{message:TOO_SHORT_ERROR('description',10)})
   description: string;
+
+  @IsNotEmpty({message:EMPTY_ERROR('userId')})
+  userId: number
+
+
 }

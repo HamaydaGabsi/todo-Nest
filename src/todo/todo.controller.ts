@@ -7,6 +7,7 @@ import {
   Param,
   Body,
   Query,
+  Request,
 } from '@nestjs/common';
 import { AddTodoDTO } from './dto/add-todo.dto';
 import { EditTodoDTO } from './dto/edit-todo.dto';
@@ -22,7 +23,7 @@ export class TodoController {
     return await this.todoService.getTodoCountsByStatus();
   }
   @Get()
-  async getTodos(@Query() queryParams: TodoQueryParamsDTO): Promise<Todo[]> {
+  async getTodos(@Query() queryParams: TodoQueryParamsDTO): Promise<Todo[]> { 
     const { chaine, statut,page,limit } = queryParams;
     console.log('get Todos');
     return await this.todoService.getTodos(chaine, statut,page,limit);
@@ -39,8 +40,9 @@ export class TodoController {
   }
 
   @Delete(':id')
-  async deleteTodoById(@Param('id') id) {
-    return await this.todoService.soft_deleteTodoById(id);
+  async deleteTodoById(@Param('id') id,@Body() {userId}) {
+    
+    return await this.todoService.soft_deleteTodoById(id,userId);
   }
 
   @Put(':id')
