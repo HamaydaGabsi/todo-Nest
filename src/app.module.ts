@@ -11,8 +11,7 @@ import { AuthMiddleware } from './middlewares/auth/auth.middleware';
 
 dotenv.config();
 @Module({
-  imports: [
-    
+  imports: [ 
     TypeOrmModule.forRoot({
       type: "mysql",
       host: process.env.DB_HOST,

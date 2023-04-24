@@ -44,7 +44,7 @@ export class TodoService {
     if (statut) {
       queryBuilder = queryBuilder.andWhere('todo.statut = :statut', { statut });
     }
-    if(parseInt(page)&&parseInt(page)){
+    if(parseInt(page)&&parseInt(limit)){
       const [todos, count] = await queryBuilder
       .skip((page - 1) * limit)
       .take(limit)
